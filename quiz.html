@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Crime Quiz</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Change to your CSS stylesheet -->
+    <style>
+        body {
+            background: linear-gradient(to right, #450483, #008b80);
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .quiz-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            color: #333;
+        }
+
+        .question {
+            margin-bottom: 30px;
+        }
+
+        .option {
+            display: block;
+            margin: 10px 0;
+            padding: 15px;
+            background: #ff4757; /* Bright Red */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            text-align: center;
+            transition: background 0.3s, transform 0.2s;
+            width: 100%; /* Make all options the same width */
+            box-sizing: border-box; /* Ensures padding is included in width */
+        }
+
+        .option:hover {
+            background: #0a7400; /* Darker Red on hover */
+            transform: translateY(-2px);
+        }
+
+        #result {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        label {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        @media (max-width: 600px) {
+            .option {
+                font-size: 16px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            #result {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Cyber Crime & Safety Quiz</h1>
+    <div id="quiz"></div>
+    <button style="background-color: #00928b;" id="submit" class="option">Submit</button>
+    <div id="result"></div>
+</div>
+
+<script>
+    const quizData = [
+        {
+            question: "What is Phishing?",
+            options: [
+                "A type of fishing technique",
+                "A method to steal sensitive information",
+                "A way to enhance security",
+                "None of the above"
+            ],
+            answer: 1
+        },
+        {
+            question: "Which of the following is a common sign of malware?",
+            options: [
+                "Slow computer performance",
+                "Increased pop-up ads",
+                "Frequent crashes",
+                "All of the above"
+            ],
+            answer: 3
+        },
+        {
+            question: "What is two-factor authentication?",
+            options: [
+                "Using two passwords",
+                "A security process that requires two forms of identification",
+                "A type of encryption",
+                "None of the above"
+            ],
+            answer: 1
+        },
+        {
+            question: "What should you do if you receive an email from an unknown sender?",
+            options: [
+                "Open the email and check it",
+                "Delete it immediately",
+                "Reply to the sender for confirmation",
+                "Mark it as spam and ignore"
+            ],
+            answer: 3
+        },
+        {
+            question: "What is a strong password?",
+            options: [
+                "123456",
+                "password",
+                "A mix of letters, numbers, and symbols",
+                "Your birthdate"
+            ],
+            answer: 2
+        },
+        {
+            question: "What is a common type of cyber bullying?",
+            options: [
+                "Physical bullying",
+                "Harassing someone online",
+                "Ignoring someone",
+                "None of the above"
+            ],
+            answer: 1
+        },
+        {
+            question: "What does VPN stand for?",
+            options: [
+                "Virtual Private Network",
+                "Variable Protection Network",
+                "Very Private Network",
+                "None of the above"
+            ],
+            answer: 0
+        },
+        {
+            question: "Which of the following is a security measure?",
+            options: [
+                "Using the same password for all accounts",
+                "Installing antivirus software",
+                "Accessing public WiFi without precautions",
+                "None of the above"
+            ],
+            answer: 1
+        },
+        {
+            question: "What is 'Ransomware'?",
+            options: [
+                "Software that helps secure your data",
+                "Malware that encrypts files and demands payment",
+                "A social engineering scam",
+                "None of the above"
+            ],
+            answer: 1
+        },
+        {
+            question: "What should you do if you think your account has been hacked?",
+            options: [
+                "Change your password immediately",
+                "Ignore it",
+                "Contact the hacker",
+                "None of the above"
+            ],
+            answer: 0
+        },
+        {
+            question: "What is the purpose of antivirus software?",
+            options: [
+                "To speed up your computer",
+                "To protect against malicious software",
+                "To remove cookies",
+                "None of the above"
+            ],
+            answer: 1
+        },
+        {
+            question: "How often should you update your software?",
+            options: [
+                "Only when you remember",
+                "Never",
+                "Regularly, when updates are available",
+                "Only if there is a problem"
+            ],
+            answer: 2
+        },
+        {
+            question: "What does 'hacking' refer to?",
+            options: [
+                "Breaking into someone's computer system",
+                "Improving a software's functionality",
+                "Something illegal only",
+                "None of the above"
+            ],
+            answer: 0
+        },
+        {
+            question: "How can you identify a secure website?",
+            options: [
+                "It has a padlock icon in the browser's address bar",
+                "Its URL begins with 'http'",
+                "It has many advertisements",
+                "None of the above"
+            ],
+            answer: 0
+        },
+        {
+            question: "Why should you avoid clicking on suspicious links?",
+            options: [
+                "They can take you to unwanted websites",
+                "They might contain malware",
+                "They could steal your information",
+                "All of the above"
+            ],
+            answer: 3
+        },
+        {
+            question: "What is identity theft?",
+            options: [
+                "Using someone’s identity for financial gain",
+                "A type of social engineering",
+                "Taking someone’s credit card without permission",
+                "None of the above"
+            ],
+            answer: 0
+        },
+        {
+            question: "What is 'social engineering'?",
+            options: [
+                "Strategies for improving workplace safety",
+                "Manipulating people to reveal confidential information",
+                "A type of network security",
+                "None of the above"
+            ],
+            answer: 1
+        },
+        {
+            question: "What is 'malware'?",
+            options: [
+                "Software designed to harm or exploit any device",
+                "Software designed to enhance performance",
+                "A type of software update",
+                "None of the above"
+            ],
+            answer: 0
+        },
+        {
+            question: "What should you do before downloading software?",
+            options: [
+                "Verify the source",
+                "Check user reviews",
+                "Use antivirus scans",
+                "All of the above"
+            ],
+            answer: 3
+        },
+        {
+            question: "What is a firewall?",
+            options: [
+                "A security system that monitors and controls incoming and outgoing network traffic",
+                "A cooling system for computers",
+                "Software for improving internet speed",
+                "None of the above"
+            ],
+            answer: 0
+        }
+    ];
+
+    const quizContainer = document.getElementById('quiz');
+    const resultContainer = document.getElementById('result');
+    const submitButton = document.getElementById('submit');
+
+    function loadQuiz() {
+        quizData.forEach((quizItem, index) => {
+            const questionElement = document.createElement('div');
+            questionElement.classList.add('question');
+            questionElement.innerHTML = `<h3>${quizItem.question}</h3>`;
+            quizItem.options.forEach((option, i) => {
+                questionElement.innerHTML += `
+                    <label>
+                        <input type="radio" name="question${index}" value="${i}" />
+                        <span class="option">${option}</span>
+                    </label>
+                `;
+            });
+            quizContainer.appendChild(questionElement);
+        });
+    }
+
+    loadQuiz();
+
+    submitButton.addEventListener('click', () => {
+        let score = 0;
+        quizData.forEach((quizItem, index) => {
+            const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+            if (selectedOption && parseInt(selectedOption.value) === quizItem.answer) {
+                score++;
+            }
+        });
+        resultContainer.innerHTML = `You scored ${score} out of ${quizData.length}`;
+    });
+</script>
+
+</body>
+</html>
